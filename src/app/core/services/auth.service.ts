@@ -19,4 +19,12 @@ export class AuthService extends AuthHelper {
   signOut() {
     this.removeToken();
   }
+
+  getListUser() {
+    return this.http.get([`${ENDPOINT.user.index}`]);
+  }
+
+  getUserInfor(id: string) {
+    return this.http.get([`${ENDPOINT.user.index}/${id}`]);
+  }
 }
