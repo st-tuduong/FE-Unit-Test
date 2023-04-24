@@ -6,11 +6,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { applyMiddleware, createStore } from 'redux';
 import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { Routes, Route, MemoryRouter } from 'react-router-dom';
+import { Routes, Route, MemoryRouter, Router, BrowserRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import appMiddleware from '@app/app.middleware';
 import UserList from './UserList';
+import { createMemoryHistory } from 'history';
 const server = setupServer(
   rest.get('https://jsonplaceholder.typicode.com/users', (req, res, ctx) => {
     return res(
@@ -114,8 +115,10 @@ describe('Test Component User List', () => {
       render(<UserList />, { wrapper: ReduxWrapper });
       expect(screen.getByTestId('loading')).toBeInTheDocument();
       await waitFor(() => {
-        expect(screen.queryAllByTestId('user')).toHaveLength(3);
-      });
+        expect(screen.queryByTestId('loading')).toBeNull();
+    });
+      expect(screen.queryAllByTestId('user')).toHaveLength(3);
+      expect(screen.getByText('Leanne Graham')).toBeInTheDocument();
     });
   });
 
@@ -124,15 +127,13 @@ describe('Test Component User List', () => {
       render(<UserList />, { wrapper: ReduxWrapper });
       expect(screen.getByTestId('loading')).toBeInTheDocument();
       await waitFor(() => {
-        expect(screen.queryAllByTestId('user')).toHaveLength(3);
+        expect(screen.queryByTestId('loading')).toBeNull();
       });
+      expect(screen.queryAllByTestId('user')).toHaveLength(3);
       fireEvent.click(screen.getByTestId('btn-remove-1'));
-      expect(screen.queryByTestId('btn-remove-1')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('btn-remove-1')).toBeNull();
       expect(screen.getByTestId('user-link-2')).toBeInTheDocument();
-      expect(screen.getByTestId('user-link-2')).toHaveAttribute(
-        'href',
-        '/user/2'
-      );
+      expect(screen.getByTestId('user-link-2')).toHaveAttribute('href', '/user/2');
     });
   });
 
@@ -147,12 +148,13 @@ describe('Test Component User List', () => {
         )
       );
       render(<UserList />, { wrapper: ReduxWrapper });
-      expect(screen.getByTestId('loading'));
+      expect(screen.getByTestId('loading')).toBeInTheDocument();
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(
-          'Oops, failed to fetch!'
-        );
+        expect(screen.queryByTestId('loading')).toBeNull();
       });
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Oops, failed to fetch!'
+      );
     });
   });
 });

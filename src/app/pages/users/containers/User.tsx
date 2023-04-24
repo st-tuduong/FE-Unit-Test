@@ -6,20 +6,22 @@ import { getUserInfor } from '../user.action';
 
 const User = () => {
   const dispatch = useDispatch();
-  const { userInfor, isLoading, hasError } = useSelector((state: any) => state.userReducer);
+  const { userInfor, isLoading, hasError } = useSelector(
+    (state: any) => state.userReducer
+  );
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getUserInfor(id));
   }, []);
 
-  return isLoading ? <span data-testid="loading" className="loading-indicator">
-      ...Loading
-    </span> : (
-    <div className="user" data-testid="user-infor">
+  return isLoading ? (
+    <span data-testid='loading'>...Loading</span>
+  ) : (
+    <div className='user' data-testid='user-infor'>
       <p>{userInfor?.name}</p>
       <p>{userInfor?.company?.name}</p>
-      {hasError && <p role="alert">Oops, failed to fetch!</p>}
+      {hasError && <p role='alert'>Oops, failed to fetch!</p>}
     </div>
   );
 };
