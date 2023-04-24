@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'https://nuxt-todo-server.herokuapp.com/api/'
+  apiBaseUrl: 'https://jsonplaceholder.typicode.com'
 };

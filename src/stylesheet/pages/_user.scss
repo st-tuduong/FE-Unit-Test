@@ -1,0 +1,44 @@
+body {
+  background: #f8f9fd;
+}
+ul, li {
+  list-style: none;
+}
+
+.pages-container {
+  height: 100vh;
+}
+.list-user {
+  padding: 60px 0;
+  .user {
+    &-remove {
+      cursor: pointer;
+    }
+  }
+  table {
+    width: 100%;
+    & thead {
+      & tr {
+        background-color: #ffffff;
+        border-bottom: 4px solid #eceffa;
+      }
+      & th {
+        padding: 30px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+    & tbody {
+      & tr {
+        background-color: #ffffff;
+        border-bottom: 4px solid #eceffa;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      & td {
+        padding: 30px;
+        font-size: 14px;
+      }
+    }
+  }
+}
